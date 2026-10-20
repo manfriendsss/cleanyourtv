@@ -18,6 +18,8 @@ powershell -ExecutionPolicy Bypass -File tools\theme.ps1 -TvHost 192.168.1.50 th
 | `aurora/` | A dark aurora wallpaper (teal and violet on navy, darker at the bottom) with a matching background colour |
 | `dussehra/` | Festive skin for Dussehra (ends 21 Oct 2026): a marigold toran, a faint gold rangoli, a diya for Wi-Fi, a bell for Inputs, a marigold for Settings and a petal shower |
 | `six-columns/` | Six smaller tiles per row and one grid row visible under the dock |
+| `oled-minimal/` | Pitch-black OLED theme with 5 columns, 1 preview row, hardware stats, app library and advanced motion effects |
+| `vietnam-modern/` | Deep slate-teal backdrop with subtle sky gradient, hardware stats, 5 columns and dock presets for YouTube, Netflix, VTV Go, FPT Play |
 
 ## Keys
 

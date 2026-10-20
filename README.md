@@ -1,4 +1,4 @@
-<p align="center">
+﻿<p align="center">
   <a href="https://cleanyour.tv"><img src="https://raw.githubusercontent.com/Gathin23/cleanyourtv/main/docs/banner.png" alt="CleanYourTV. Your TV, minus the ads." width="800"></a>
 </p>
 
@@ -10,7 +10,8 @@
   <a href="examples/">107 TV lists</a> ·
   <a href="SHOWCASE.md">22 built on it</a> ·
   <a href="https://x.com/gathint/status/2111379569030939102">The tweet</a> ·
-  <a href="README.zh-CN.md">简体中文</a>
+  <a href="README.zh-CN.md">简体中文</a> ·
+  <a href="README.vi.md">Tiếng Việt</a>
 </p>
 
 <p align="center">

@@ -1,0 +1,9 @@
+{
+  "columns": 5,
+  "rows_below_dock": 1,
+  "show_stats": true,
+  "app_library": true,
+  "reorder_button": true,
+  "advanced_effects": true,
+  "background_color": "#000000"
+}
