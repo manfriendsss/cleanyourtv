@@ -1,8 +1,8 @@
 {
   "festival": "birthday_me_linh",
   "greeting": "Chúc mừng sinh nhật Mẹ Linh! 🎂💐",
-  "accent_color": "#AB47BC",
-  "background_color": "#0d0611",
+  "accent_color": "#E53935",
+  "background_color": "#130404",
   "sky_intensity": 35,
   "columns": 5,
   "rows_below_dock": 1,

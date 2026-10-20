@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CleanYourTV - Bộ xem trước giao diện Theme (Live Preview Simulator)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    body {
+      background-color: #05070a;
+      font-family: 'Outfit', sans-serif;
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      overflow-x: hidden;
+    }
+
+    /* Top Control Bar */
+    .simulator-controls {
+      width: 100%;
+      background: rgba(20, 24, 33, 0.95);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 12px 24px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 100;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      position: sticky;
+      top: 0;
+    }
+
+    .controls-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .controls-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    select, button, input[type="date"] {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    select:hover, button:hover, input[type="date"]:hover {
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    button.primary {
+      background: #2563eb;
+      border-color: #3b82f6;
+    }
+    button.primary:hover {
+      background: #1d4ed8;
+    }
+
+    .quick-pill {
+      font-size: 12px;
+      padding: 5px 10px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      color: #cbd5e1;
+    }
+    .quick-pill:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
+
+    /* TV Display Container */
+    .tv-frame {
+      margin: 24px auto;
+      width: 92vw;
+      max-width: 1360px;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      border-radius: 24px;
+      border: 10px solid #1e2430;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: background-color 0.6s ease;
+    }
+
+    /* Ambient sky gradient overlay */
+    .sky-gradient {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      transition: opacity 0.8s ease;
+      opacity: 0.35;
+      background: radial-gradient(circle at 50% -20%, var(--accent-glow, #3b82f6), transparent 70%);
+      z-index: 1;
+    }
+
+    /* TV Header */
+    .tv-header {
+      position: relative;
+      z-index: 10;
+      padding: 40px 56px 20px 56px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .greeting-area {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .greeting-text {
+      font-size: 26px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: var(--accent-color, #ffffff);
+      text-shadow: 0 0 20px var(--accent-glow, rgba(255, 255, 255, 0.3));
+      transition: color 0.4s ease, text-shadow 0.4s ease;
+    }
+
+    .clock-area {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .clock-time {
+      font-size: 58px;
+      font-weight: 200;
+      line-height: 1;
+      letter-spacing: -1px;
+    }
+
+    .clock-date {
+      font-size: 16px;
+      font-weight: 400;
+      color: #94a3b8;
+      margin-top: 4px;
+    }
+
+    .stats-line {
+      font-size: 13px;
+      font-weight: 400;
+      color: #64748b;
+      margin-top: 6px;
+      letter-spacing: 0.3px;
+    }
+
+    /* Top Action Pills (Inputs, Wi-Fi, Settings) */
+    .top-pills {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .frosted-pill {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #f1f5f9;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transition: all 0.25s ease;
+    }
+    .frosted-pill:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.04);
+    }
+    .frosted-pill svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    /* Top Shelf Focus Area */
+    .top-shelf {
+      position: relative;
+      z-index: 10;
+      padding: 0 56px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-top: auto;
+      margin-bottom: 24px;
+    }
+
+    .focused-app-title {
+      font-size: 40px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      text-transform: capitalize;
+      text-shadow: 0 4px 25px rgba(0, 0, 0, 0.8);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Dock Area */
+    .dock-container {
+      position: relative;
+      z-index: 10;
+      padding: 0 44px;
+      margin-bottom: 12px;
+    }
+
+    .dock-band {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(35px);
+      -webkit-backdrop-filter: blur(35px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 28px;
+      padding: 18px 20px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 18px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .tile {
+      aspect-ratio: 16 / 9;
+      border-radius: 18px;
+      background: #1e293b;
+      position: relative;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+      border: 3px solid transparent;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+    }
+
+    .tile-badge {
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.9);
+      margin-top: 8px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+    }
+
+    .tile.focused {
+      transform: translateY(-8px) scale(1.06);
+      border-color: #ffffff;
+      box-shadow: 0 16px 36px -6px var(--accent-glow, rgba(255, 255, 255, 0.5)), 0 0 24px rgba(255, 255, 255, 0.4);
+      z-index: 5;
+    }
+
+    /* Apps below dock (Preview row) */
+    .sub-grid {
+      position: relative;
+      z-index: 10;
+      padding: 0 64px 32px 64px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 18px;
+      opacity: 0.6;
+      transition: opacity 0.3s ease;
+    }
+    .sub-grid .tile {
+      aspect-ratio: 16 / 9;
+      transform: scale(0.92);
+      border-radius: 16px;
+    }
+
+    /* Petal Shower Effect */
+    .petal-shower-canvas {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 20;
+    }
+
+    /* App Logos & Icons */
+    .logo-youtube {
+      width: 48px;
+      height: 34px;
+      background: #ff0000;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .logo-youtube::after {
+      content: "";
+      width: 0;
+      height: 0;
+      border-top: 7px solid transparent;
+      border-bottom: 7px solid transparent;
+      border-left: 12px solid #fff;
+      margin-left: 3px;
+    }
+
+    .logo-netflix {
+      font-size: 32px;
+      font-weight: 900;
+      color: #e50914;
+      font-family: Arial, sans-serif;
+      letter-spacing: -2px;
+    }
+
+    .logo-stremio {
+      width: 36px;
+      height: 36px;
+      background: #6d4aff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 12px rgba(109, 74, 255, 0.6);
+    }
+    .logo-stremio::after {
+      content: "▶";
+      font-size: 16px;
+      color: #fff;
+      margin-left: 3px;
+    }
+
+    .logo-geforce {
+      width: 38px;
+      height: 38px;
+      background: #76b900;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 800;
+      color: #000;
+    }
+
+    .logo-vtvgo {
+      width: 40px;
+      height: 40px;
+      background: #d32f2f;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.5px;
+    }
+
+    .logo-coccoc {
+      width: 38px;
+      height: 38px;
+      background: #009944;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    .logo-ytmusic {
+      width: 38px;
+      height: 38px;
+      background: #ff0000;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 10px rgba(255,0,0,0.5);
+    }
+    .logo-ytmusic::after {
+      content: "♫";
+      font-size: 20px;
+      color: #fff;
+    }
+
+    .logo-library {
+      width: 38px;
+      height: 38px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Controls Bar -->
+  <div class="simulator-controls">
+    <div class="controls-group">
+      <span class="controls-label">Chọn Theme Xem Trước:</span>
+      <select id="themeSelect" onchange="applyTheme(this.value)">
+        <optgroup label="✨ Mặc Định & Tối Ưu Cho Bạn">
+          <option value="onn-vietnam" selected>Onn Vietnam (Mặc định)</option>
+          <option value="oled-minimal">OLED Minimal (Đen tuyền)</option>
+          <option value="vietnam-modern">Vietnam Modern (Slate-teal)</option>
+          <option value="aurora">Aurora (Bắc cực quang)</option>
+        </optgroup>
+        <optgroup label="🎂 Sinh Nhật Gia Đình (Chạy -1 đến +1 ngày)">
+          <option value="sinh-nhat-momo">Momo 17/1 (Hồng đào pastel ngọt)</option>
+          <option value="sinh-nhat-mia">Bé Mía 8/3 (Màu tím mộng mơ)</option>
+          <option value="sinh-nhat-bo-quang-anh">Bố Quang Anh 28/6 (Màu cam ấm áp)</option>
+          <option value="sinh-nhat-me-linh">Mẹ Linh 20/11 (Màu đỏ ấm cúng)</option>
+        </optgroup>
+        <optgroup label="🎆 Ngày Lễ Lớn (Chạy -14 đến +7 ngày)">
+          <option value="tet-nguyen-dan">Tết Nguyên Đán (Đỏ may mắn / Vàng kim)</option>
+          <option value="giang-sinh">Giáng Sinh 25/12 (Đỏ tuyết Noel)</option>
+          <option value="valentine">Valentine 14/2 (Đỏ hồng tình yêu)</option>
+          <option value="quoc-te-phu-nu-8-3">Quốc Tế Phụ Nữ 8/3 (Hồng hoa sen)</option>
+          <option value="tu-hao-vn-30-4">Tự Hào Việt Nam 30/4 - 1/5 (Đỏ cờ)</option>
+          <option value="quoc-khanh-2-9">Quốc Khánh 2/9 (Đỏ cờ Tổ quốc)</option>
+        </optgroup>
+      </select>
+    </div>
+
+    <div class="controls-group">
+      <span class="controls-label">Mô phỏng ngày:</span>
+      <input type="date" id="datePicker" value="2026-10-20" onchange="simulateDate(this.value)">
+      <button class="quick-pill" onclick="setDate('2026-01-17')">17/1 Momo</button>
+      <button class="quick-pill" onclick="setDate('2026-03-08')">8/3 Mía</button>
+      <button class="quick-pill" onclick="setDate('2026-06-28')">28/6 Bố</button>
+      <button class="quick-pill" onclick="setDate('2026-11-20')">20/11 Mẹ</button>
+      <button class="quick-pill" onclick="setDate('2026-02-17')">Tết Âm</button>
+      <button class="quick-pill" onclick="setDate('2026-12-25')">Noel</button>
+      <button class="quick-pill" onclick="setDate('2026-04-30')">30/4</button>
+      <button class="quick-pill" onclick="setDate('2026-09-02')">2/9</button>
+    </div>
+
+    <div class="controls-group">
+      <button class="primary" onclick="triggerPetals()">🌸 Thả cánh hoa</button>
+    </div>
+  </div>
+
+  <!-- TV Simulator Screen -->
+  <div class="tv-frame" id="tvFrame">
+    <canvas id="petalCanvas" class="petal-shower-canvas"></canvas>
+    <div class="sky-gradient" id="skyGradient"></div>
+
+    <!-- Header -->
+    <div class="tv-header">
+      <div class="greeting-area">
+        <div class="clock-area">
+          <div class="clock-time" id="clockTime">20:30</div>
+          <div class="clock-date" id="clockDate">Thứ Ba, 20 tháng 10</div>
+          <div class="stats-line" id="statsLine">CPU 14% · RAM trống 1084 MB · Bộ nhớ trống 18.2 GB</div>
+        </div>
+        <div class="greeting-text" id="greetingText" style="margin-top: 14px;">Chào buổi tối</div>
+      </div>
+
+      <div class="top-pills">
+        <div class="frosted-pill">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9v-2h2v2zm0-4H9V7h2v5z"/></svg>
+          Nguồn vào
+        </div>
+        <div class="frosted-pill" id="pillWifi">
+          <svg viewBox="0 0 24 24"><path d="M12 3C7.79 3 3.97 4.59 1 7.22l1.41 1.41C4.84 6.36 8.23 5 12 5s7.16 1.36 9.59 3.63L23 7.22C20.03 4.59 16.21 3 12 3zm0 4c-3.15 0-6.03 1.15-8.28 3.08l1.41 1.41C6.77 10.15 9.25 9 12 9s5.23 1.15 6.87 2.49l1.41-1.41C18.03 8.15 15.15 7 12 7zm0 4c-1.89 0-3.63.7-4.97 1.87l1.41 1.41C9.37 13.51 10.63 13 12 13s2.63.51 3.56 1.28l1.41-1.41C15.63 11.7 13.89 11 12 11zm0 4c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5z"/></svg>
+          Wi-Fi: Family-5G
+        </div>
+        <div class="frosted-pill">
+          <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+          Cài đặt
+        </div>
+      </div>
+    </div>
+
+    <!-- Top Shelf (Focus Name) -->
+    <div class="top-shelf">
+      <div class="focused-app-title" id="shelfTitle">YouTube</div>
+    </div>
+
+    <!-- Dock (5 columns) -->
+    <div class="dock-container">
+      <div class="dock-band">
+        <div class="tile focused" onclick="selectTile(this, 'YouTube', '#ff0000')">
+          <div class="logo-youtube"></div>
+          <span class="tile-badge">YouTube</span>
+        </div>
+        <div class="tile" onclick="selectTile(this, 'Netflix', '#e50914')">
+          <div class="logo-netflix">N</div>
+          <span class="tile-badge">Netflix</span>
+        </div>
+        <div class="tile" onclick="selectTile(this, 'Stremio', '#6d4aff')">
+          <div class="logo-stremio"></div>
+          <span class="tile-badge">Stremio</span>
+        </div>
+        <div class="tile" onclick="selectTile(this, 'GeForce NOW', '#76b900')">
+          <div class="logo-geforce">G</div>
+          <span class="tile-badge">GeForce NOW</span>
+        </div>
+        <div class="tile" onclick="selectTile(this, 'VTV Go', '#d32f2f')">
+          <div class="logo-vtvgo">VTV</div>
+          <span class="tile-badge">VTV Go</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preview row below dock -->
+    <div class="sub-grid">
+      <div class="tile" onclick="selectTile(this, 'Cốc Cốc Browser', '#009944')">
+        <div class="logo-coccoc">C</div>
+        <span class="tile-badge">Cốc Cốc</span>
+      </div>
+      <div class="tile" onclick="selectTile(this, 'YouTube Music', '#ff0000')">
+        <div class="logo-ytmusic"></div>
+        <span class="tile-badge">YT Music</span>
+      </div>
+      <div class="tile" onclick="selectTile(this, 'Thư Viện Ứng Dụng', '#64748b')">
+        <div class="logo-library">▦</div>
+        <span class="tile-badge">Thư viện</span>
+      </div>
+      <div class="tile" style="opacity: 0.3;"></div>
+      <div class="tile" style="opacity: 0.3;"></div>
+    </div>
+  </div>
+
+  <script>
+    // Theme Definitions
+    const THEMES = {
+      'onn-vietnam': {
+        greeting: 'Chào buổi tối',
+        accent: '#38bdf8',
+        glow: 'rgba(56, 189, 248, 0.45)',
+        bg: '#0a0e14',
+        sky: 0.35
+      },
+      'oled-minimal': {
+        greeting: 'Chào buổi tối',
+        accent: '#ffffff',
+        glow: 'rgba(255, 255, 255, 0.3)',
+        bg: '#000000',
+        sky: 0.1
+      },
+      'vietnam-modern': {
+        greeting: 'Chào buổi tối',
+        accent: '#2dd4bf',
+        glow: 'rgba(45, 212, 191, 0.45)',
+        bg: '#0a1118',
+        sky: 0.35
+      },
+      'aurora': {
+        greeting: 'Chào buổi tối',
+        accent: '#818cf8',
+        glow: 'rgba(129, 140, 248, 0.5)',
+        bg: '#0d1b2a',
+        sky: 0.5
+      },
+      'sinh-nhat-momo': {
+        greeting: 'Chúc mừng sinh nhật Momo! 🎂🎉',
+        accent: '#FF9EAA', // Pastel peach pink
+        glow: 'rgba(255, 158, 170, 0.65)',
+        bg: '#130709',
+        sky: 0.4
+      },
+      'sinh-nhat-mia': {
+        greeting: 'Chúc mừng sinh nhật Bé Mía! 🎂🌸',
+        accent: '#A855F7', // Soft purple
+        glow: 'rgba(168, 85, 247, 0.65)',
+        bg: '#0d0514',
+        sky: 0.4
+      },
+      'sinh-nhat-bo-quang-anh': {
+        greeting: 'Chúc mừng sinh nhật Bố Quang Anh! 🎂🎈',
+        accent: '#FF7A00', // Warm orange
+        glow: 'rgba(255, 122, 0, 0.65)',
+        bg: '#120702',
+        sky: 0.4
+      },
+      'sinh-nhat-me-linh': {
+        greeting: 'Chúc mừng sinh nhật Mẹ Linh! 🎂💐',
+        accent: '#E53935', // Cozy red
+        glow: 'rgba(229, 57, 53, 0.65)',
+        bg: '#130404',
+        sky: 0.4
+      },
+      'tet-nguyen-dan': {
+        greeting: 'Chúc Mừng Năm Mới · Vạn Sự Như Ý 🧧✨',
+        accent: '#D32F2F',
+        glow: 'rgba(211, 47, 47, 0.7)',
+        bg: '#120505',
+        sky: 0.45
+      },
+      'giang-sinh': {
+        greeting: 'Giáng Sinh An Lành · Merry Christmas 🎄✨',
+        accent: '#E50914',
+        glow: 'rgba(229, 9, 20, 0.65)',
+        bg: '#061009',
+        sky: 0.4
+      },
+      'valentine': {
+        greeting: 'Happy Valentine\'s Day · Yêu Thương Đong Đầy 💖',
+        accent: '#E91E63',
+        glow: 'rgba(233, 30, 99, 0.65)',
+        bg: '#12060a',
+        sky: 0.35
+      },
+      'quoc-te-phu-nu-8-3': {
+        greeting: 'Chúc Mừng Ngày Quốc Tế Phụ Nữ 8/3 💐',
+        accent: '#E040FB',
+        glow: 'rgba(224, 64, 251, 0.65)',
+        bg: '#110612',
+        sky: 0.35
+      },
+      'tu-hao-vn-30-4': {
+        greeting: 'Tự Hào Việt Nam · Kỷ Niệm 30/4 - 1/5 🇻🇳',
+        accent: '#DA251D',
+        glow: 'rgba(218, 37, 29, 0.7)',
+        bg: '#120404',
+        sky: 0.4
+      },
+      'quoc-khanh-2-9': {
+        greeting: 'Chúc Mừng Quốc Khánh 2/9 · Tôi Yêu Việt Nam 🇻🇳',
+        accent: '#DA251D',
+        glow: 'rgba(218, 37, 29, 0.7)',
+        bg: '#120404',
+        sky: 0.4
+      }
+    };
+
+    function applyTheme(themeKey) {
+      const theme = THEMES[themeKey] || THEMES['onn-vietnam'];
+      const frame = document.getElementById('tvFrame');
+      const greeting = document.getElementById('greetingText');
+      const sky = document.getElementById('skyGradient');
+
+      frame.style.backgroundColor = theme.bg;
+      frame.style.setProperty('--accent-color', theme.accent);
+      frame.style.setProperty('--accent-glow', theme.glow);
+      greeting.textContent = theme.greeting;
+      sky.style.opacity = theme.sky;
+
+      if (themeKey.startsWith('sinh-nhat') || themeKey === 'tet-nguyen-dan' || themeKey === 'giang-sinh') {
+        triggerPetals(theme.accent);
+      }
+    }
+
+    function selectTile(element, title, glowColor) {
+      document.querySelectorAll('.tile').forEach(t => t.classList.remove('focused'));
+      element.classList.add('focused');
+      document.getElementById('shelfTitle').textContent = title;
+      if (glowColor) {
+        document.getElementById('tvFrame').style.setProperty('--accent-glow', glowColor + '80');
+      }
+    }
+
+    function setDate(dateStr) {
+      document.getElementById('datePicker').value = dateStr;
+      simulateDate(dateStr);
+    }
+
+    // Auto Schedule Simulator
+    function simulateDate(dateStr) {
+      const date = new Date(dateStr);
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      const year = date.getFullYear();
+
+      // Format Vietnamese date
+      const daysOfWeek = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
+      document.getElementById('clockDate').textContent = `${daysOfWeek[date.getDay()]}, ${day} tháng ${month}`;
+
+      let matchedTheme = 'onn-vietnam';
+
+      // 1. Family Birthdays (-1 to +1)
+      if (month === 1 && day >= 16 && day <= 18) {
+        matchedTheme = 'sinh-nhat-momo';
+      } else if (month === 3 && day >= 7 && day <= 9) {
+        matchedTheme = 'sinh-nhat-mia';
+      } else if (month === 6 && day >= 27 && day <= 29) {
+        matchedTheme = 'sinh-nhat-bo-quang-anh';
+      } else if (month === 11 && day >= 19 && day <= 21) {
+        matchedTheme = 'sinh-nhat-me-linh';
+      }
+      // 2. Holidays (-14 to +7)
+      else if (year === 2026 && month === 2 && day >= 3 && day <= 24) {
+        matchedTheme = 'tet-nguyen-dan';
+      } else if ((month === 12 && day >= 11) || (month === 1 && day === 1)) {
+        matchedTheme = 'giang-sinh';
+      } else if ((month === 1 && day === 31) || (month === 2 && day <= 21)) {
+        matchedTheme = 'valentine';
+      } else if ((month === 2 && day >= 22) || (month === 3 && day <= 15)) {
+        matchedTheme = 'quoc-te-phu-nu-8-3';
+      } else if ((month === 4 && day >= 16) || (month === 5 && day <= 8)) {
+        matchedTheme = 'tu-hao-vn-30-4';
+      } else if ((month === 8 && day >= 19) || (month === 9 && day <= 9)) {
+        matchedTheme = 'quoc-khanh-2-9';
+      }
+
+      document.getElementById('themeSelect').value = matchedTheme;
+      applyTheme(matchedTheme);
+    }
+
+    // Canvas Petal Shower Effect
+    const canvas = document.getElementById('petalCanvas');
+    const ctx = canvas.getContext('2d');
+    let petals = [];
+    let animationId = null;
+
+    function resizeCanvas() {
+      const frame = document.getElementById('tvFrame');
+      canvas.width = frame.clientWidth;
+      canvas.height = frame.clientHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function triggerPetals(tintColor = '#ff8c1a') {
+      resizeCanvas();
+      petals = [];
+      const count = 45;
+      const colors = [tintColor, '#ffd54f', '#ffb74d', '#ff8a80', '#ffffff'];
+
+      for (let i = 0; i < count; i++) {
+        petals.push({
+          x: Math.random() * canvas.width,
+          y: -20 - Math.random() * 50,
+          size: 7 + Math.random() * 9,
+          speedY: 2 + Math.random() * 3,
+          speedX: (Math.random() - 0.5) * 2,
+          rotation: Math.random() * 360,
+          rotSpeed: (Math.random() - 0.5) * 4,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          alpha: 1
+        });
+      }
+
+      if (animationId) cancelAnimationFrame(animationId);
+      animatePetals();
+    }
+
+    function animatePetals() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      let active = false;
+
+      petals.forEach(p => {
+        p.y += p.speedY;
+        p.x += p.speedX + Math.sin(p.y * 0.02) * 0.8;
+        p.rotation += p.rotSpeed;
+        if (p.y > canvas.height * 0.75) {
+          p.alpha -= 0.02;
+        }
+
+        if (p.alpha > 0 && p.y < canvas.height) {
+          active = true;
+          ctx.save();
+          ctx.globalAlpha = Math.max(0, p.alpha);
+          ctx.translate(p.x, p.y);
+          ctx.rotate((p.rotation * Math.PI) / 180);
+          ctx.fillStyle = p.color;
+          ctx.beginPath();
+          ctx.ellipse(0, 0, p.size, p.size * 0.55, 0, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+      });
+
+      if (active) {
+        animationId = requestAnimationFrame(animatePetals);
+      } else {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+    }
+
+    // Keyboard Navigation Simulation (Left / Right arrow keys)
+    window.addEventListener('keydown', (e) => {
+      const tiles = Array.from(document.querySelectorAll('.dock-band .tile'));
+      const currentIndex = tiles.findIndex(t => t.classList.contains('focused'));
+      if (e.key === 'ArrowRight' && currentIndex < tiles.length - 1) {
+        tiles[currentIndex + 1].click();
+      } else if (e.key === 'ArrowLeft' && currentIndex > 0) {
+        tiles[currentIndex - 1].click();
+      }
+    });
+
+    // Initialize
+    applyTheme('onn-vietnam');
+  </script>
+</body>
+</html>

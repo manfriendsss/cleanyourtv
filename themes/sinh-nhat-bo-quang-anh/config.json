@@ -1,8 +1,8 @@
 {
   "festival": "birthday_quang_anh",
   "greeting": "Chúc mừng sinh nhật Bố Quang Anh! 🎂🎈",
-  "accent_color": "#2979FF",
-  "background_color": "#060912",
+  "accent_color": "#FF7A00",
+  "background_color": "#120702",
   "sky_intensity": 35,
   "columns": 5,
   "rows_below_dock": 1,

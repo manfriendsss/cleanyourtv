@@ -73,10 +73,10 @@ Bạn cần một máy tính cùng mạng Wi-Fi với TV và một trợ lý AI 
 Launcher tích hợp sẵn bộ lên lịch tự động thông minh (**EventScheduler**). Bạn không cần chạy lệnh thủ công; đến đúng ngày, launcher sẽ tự động đổi lời chúc, hiệu ứng ánh sáng hào quang, màu sắc biểu tượng và tự động trở về giao diện mặc định khi hết thời gian:
 
 ### 1. Sinh nhật Gia Đình (Chạy trước 1 ngày - Kết thúc sau 1 ngày, ưu tiên cao nhất)
-* **Sinh nhật Momo (17/01)**: Tự động chạy từ **16/01 đến 18/01** (Tone vàng cam ấm áp, lời chúc sinh nhật Momo kèm bánh kem 🎂🎉).
-* **Sinh nhật Bé Mía (08/03)**: Tự động chạy từ **07/03 đến 09/03** (Tone hồng đào ngọt ngào, lời chúc Bé Mía 🎂🌸, tự động ưu tiên hơn ngày 8/3 trong 3 ngày này).
-* **Sinh nhật Bố Quang Anh (28/06)**: Tự động chạy từ **27/06 đến 29/06** (Tone xanh dương hoàng gia lịch lãm 🎂🎈).
-* **Sinh nhật Mẹ Linh (20/11)**: Tự động chạy từ **19/11 đến 21/11** (Tone tím hoa sen quý phái 🎂💐).
+* **Sinh nhật Momo (17/01)**: Tự động chạy từ **16/01 đến 18/01** (Tone hồng đào pastel ngọt ngào `#FF9EAA`, lời chúc sinh nhật Momo kèm bánh kem 🎂🎉).
+* **Sinh nhật Bé Mía (08/03)**: Tự động chạy từ **07/03 đến 09/03** (Tone tím mộng mơ `#A855F7`, lời chúc Bé Mía 🎂🌸, tự động ưu tiên hơn ngày 8/3 trong 3 ngày này).
+* **Sinh nhật Bố Quang Anh (28/06)**: Tự động chạy từ **27/06 đến 29/06** (Tone cam ấm áp tràn đầy năng lượng `#FF7A00` 🎂🎈).
+* **Sinh nhật Mẹ Linh (20/11)**: Tự động chạy từ **19/11 đến 21/11** (Tone đỏ ấm cúng yêu thương `#E53935` 🎂💐).
 
 ### 2. Các Ngày Lễ Lớn (Chạy trước 2 tuần - Kết thúc sau 1 tuần)
 * **Tết Nguyên Đán**: Chạy từ **2 tuần trước Mùng 1 Tết (15 tháng Chạp) đến hết Mùng 7 Tết** (Tone đỏ may mắn, vàng hoàng kim, lời chúc Tết bình an vạn sự như ý 🧧✨, tự động tính theo lịch âm 2024–2040).

@@ -120,13 +120,13 @@ final class Festival {
         if (accent != 0) return accent;
         switch (name) {
             case "birthday_momo":
-                return 0xFFFFA000; // Amber Gold
+                return 0xFFFF9EAA; // Pastel Peach Pink
             case "birthday_mia":
-                return 0xFFFF4081; // Pink
+                return 0xFFA855F7; // Purple
             case "birthday_quang_anh":
-                return 0xFF2979FF; // Royal Blue
+                return 0xFFFF7A00; // Warm Orange
             case "birthday_me_linh":
-                return 0xFFAB47BC; // Lotus Purple
+                return 0xFFE53935; // Cozy Red
             case "tet_nguyen_dan":
                 return 0xFFD32F2F; // Tet Red
             case "christmas":
@@ -160,22 +160,22 @@ final class Festival {
         // Sinh nhật Momo: 17/1 (16/1 - 18/1)
         if (month == 1 && day >= 16 && day <= 18) {
             return new Festival("birthday_momo", LocalDate.of(year, 1, 16), LocalDate.of(year, 1, 18),
-                    "Chúc mừng sinh nhật Momo! 🎂🎉", 0xFFFFA000);
+                    "Chúc mừng sinh nhật Momo! 🎂🎉", 0xFFFF9EAA);
         }
         // Sinh nhật Mía: 8/3 (7/3 - 9/3) - Overrides Women's Day on these 3 days
         if (month == 3 && day >= 7 && day <= 9) {
             return new Festival("birthday_mia", LocalDate.of(year, 3, 7), LocalDate.of(year, 3, 9),
-                    "Chúc mừng sinh nhật Bé Mía! 🎂🌸", 0xFFFF4081);
+                    "Chúc mừng sinh nhật Bé Mía! 🎂🌸", 0xFFA855F7);
         }
         // Sinh nhật Bố Quang Anh: 28/6 (27/6 - 29/6)
         if (month == 6 && day >= 27 && day <= 29) {
             return new Festival("birthday_quang_anh", LocalDate.of(year, 6, 27), LocalDate.of(year, 6, 29),
-                    "Chúc mừng sinh nhật Bố Quang Anh! 🎂🎈", 0xFF2979FF);
+                    "Chúc mừng sinh nhật Bố Quang Anh! 🎂🎈", 0xFFFF7A00);
         }
         // Sinh nhật Mẹ Linh: 20/11 (19/11 - 21/11)
         if (month == 11 && day >= 19 && day <= 21) {
             return new Festival("birthday_me_linh", LocalDate.of(year, 11, 19), LocalDate.of(year, 11, 21),
-                    "Chúc mừng sinh nhật Mẹ Linh! 🎂💐", 0xFFAB47BC);
+                    "Chúc mừng sinh nhật Mẹ Linh! 🎂💐", 0xFFE53935);
         }
 
         // 2. Holidays (2 weeks before, 1 week after)

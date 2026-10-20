@@ -54,18 +54,21 @@ public class FestivalTest {
         assertFalse(Festival.getScheduledEvent(LocalDate.of(2026, 1, 15)).name.equals("birthday_momo"));
         assertEquals("birthday_momo", Festival.getScheduledEvent(LocalDate.of(2026, 1, 16)).name);
         assertEquals("birthday_momo", Festival.getScheduledEvent(LocalDate.of(2026, 1, 17)).name);
+        assertEquals(0xFFFF9EAA, Festival.getScheduledEvent(LocalDate.of(2026, 1, 17)).accentColor());
         assertEquals("birthday_momo", Festival.getScheduledEvent(LocalDate.of(2026, 1, 18)).name);
         assertFalse(Festival.getScheduledEvent(LocalDate.of(2026, 1, 19)).name.equals("birthday_momo"));
 
         // Mía: 8/3 -> Active 7/3 - 9/3
         assertEquals("birthday_mia", Festival.getScheduledEvent(LocalDate.of(2026, 3, 7)).name);
         assertEquals("birthday_mia", Festival.getScheduledEvent(LocalDate.of(2026, 3, 8)).name);
+        assertEquals(0xFFA855F7, Festival.getScheduledEvent(LocalDate.of(2026, 3, 8)).accentColor());
         assertEquals("birthday_mia", Festival.getScheduledEvent(LocalDate.of(2026, 3, 9)).name);
 
         // Bố Quang Anh: 28/6 -> Active 27/6 - 29/6
         assertFalse(Festival.getScheduledEvent(LocalDate.of(2026, 6, 26)).name.equals("birthday_quang_anh"));
         assertEquals("birthday_quang_anh", Festival.getScheduledEvent(LocalDate.of(2026, 6, 27)).name);
         assertEquals("birthday_quang_anh", Festival.getScheduledEvent(LocalDate.of(2026, 6, 28)).name);
+        assertEquals(0xFFFF7A00, Festival.getScheduledEvent(LocalDate.of(2026, 6, 28)).accentColor());
         assertEquals("birthday_quang_anh", Festival.getScheduledEvent(LocalDate.of(2026, 6, 29)).name);
         assertFalse(Festival.getScheduledEvent(LocalDate.of(2026, 6, 30)).name.equals("birthday_quang_anh"));
 
@@ -73,6 +76,7 @@ public class FestivalTest {
         assertFalse(Festival.getScheduledEvent(LocalDate.of(2026, 11, 18)).name.equals("birthday_me_linh"));
         assertEquals("birthday_me_linh", Festival.getScheduledEvent(LocalDate.of(2026, 11, 19)).name);
         assertEquals("birthday_me_linh", Festival.getScheduledEvent(LocalDate.of(2026, 11, 20)).name);
+        assertEquals(0xFFE53935, Festival.getScheduledEvent(LocalDate.of(2026, 11, 20)).accentColor());
         assertEquals("birthday_me_linh", Festival.getScheduledEvent(LocalDate.of(2026, 11, 21)).name);
         assertFalse(Festival.getScheduledEvent(LocalDate.of(2026, 11, 22)).name.equals("birthday_me_linh"));
     }
