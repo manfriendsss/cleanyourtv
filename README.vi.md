@@ -68,6 +68,29 @@ Bạn cần một máy tính cùng mạng Wi-Fi với TV và một trợ lý AI 
 
 ---
 
+## Lịch tự động đổi Theme Sự Kiện & Sinh Nhật Gia Đình
+
+Launcher tích hợp sẵn bộ lên lịch tự động thông minh (**EventScheduler**). Bạn không cần chạy lệnh thủ công; đến đúng ngày, launcher sẽ tự động đổi lời chúc, hiệu ứng ánh sáng hào quang, màu sắc biểu tượng và tự động trở về giao diện mặc định khi hết thời gian:
+
+### 1. Sinh nhật Gia Đình (Chạy trước 1 ngày - Kết thúc sau 1 ngày, ưu tiên cao nhất)
+* **Sinh nhật Momo (17/01)**: Tự động chạy từ **16/01 đến 18/01** (Tone vàng cam ấm áp, lời chúc sinh nhật Momo kèm bánh kem 🎂🎉).
+* **Sinh nhật Bé Mía (08/03)**: Tự động chạy từ **07/03 đến 09/03** (Tone hồng đào ngọt ngào, lời chúc Bé Mía 🎂🌸, tự động ưu tiên hơn ngày 8/3 trong 3 ngày này).
+* **Sinh nhật Bố Quang Anh (28/06)**: Tự động chạy từ **27/06 đến 29/06** (Tone xanh dương hoàng gia lịch lãm 🎂🎈).
+* **Sinh nhật Mẹ Linh (20/11)**: Tự động chạy từ **19/11 đến 21/11** (Tone tím hoa sen quý phái 🎂💐).
+
+### 2. Các Ngày Lễ Lớn (Chạy trước 2 tuần - Kết thúc sau 1 tuần)
+* **Tết Nguyên Đán**: Chạy từ **2 tuần trước Mùng 1 Tết (15 tháng Chạp) đến hết Mùng 7 Tết** (Tone đỏ may mắn, vàng hoàng kim, lời chúc Tết bình an vạn sự như ý 🧧✨, tự động tính theo lịch âm 2024–2040).
+* **Giáng Sinh & Năm Mới (25/12)**: Chạy từ **11/12 đến hết 01/01** năm mới (Tone đỏ noel & xanh thông tuyết 🎄✨).
+* **Lễ Tình Nhân Valentine (14/02)**: Chạy từ **31/01 đến hết 21/02** (Tone đỏ hồng ngọt ngào 💖).
+* **Quốc Tế Phụ Nữ (08/03)**: Chạy từ **22/02 đến hết 15/03** (Tone tím hồng rạng rỡ 💐).
+* **Tự Hào Việt Nam (30/04 - 01/05)**: Chạy từ **16/04 đến hết 08/05** (Tone đỏ cờ Tổ quốc 🇻🇳).
+* **Quốc Khánh Nước CHXHCN Việt Nam (02/09)**: Chạy từ **19/08 đến hết 09/09** (Tone đỏ cờ Tổ quốc 🇻🇳).
+
+> Khi hết khoảng thời gian sự kiện, giao diện sẽ tự động chuyển về theme bạn đã chọn ban đầu mà không cần bất kỳ thao tác nào. Bạn cũng có thể chủ động nạp nhanh từng theme bằng lệnh:
+> `powershell -ExecutionPolicy Bypass -File tools\theme.ps1 -TvHost <IP_TV> themes\<ten-theme>`
+
+---
+
 ## Cài đặt trực tiếp trên TV
 
 - **Bấm nhanh phím OK** vào nút **Cài đặt**: Mở Cài đặt hệ thống của TV.

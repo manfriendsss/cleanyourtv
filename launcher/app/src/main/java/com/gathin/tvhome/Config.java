@@ -8,6 +8,7 @@ import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import java.time.LocalDate;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -230,9 +231,17 @@ final class Config {
             wallpapers.addAll(WallpaperRotation.images(new File(dir, "wallpapers")));
         }
         if (wallpapers.isEmpty() && wallpaper != null) wallpapers.add(wallpaper);
-        // A festive skin comes only from a theme; config.xml has no festival.
-        Festival festival = json == null ? Festival.NONE : Festival.parse(string(json, "festival", ""),
-                string(json, "festival_until", ""), string(json, "greeting", ""), string(json, "accent_color", ""));
+        // A festive skin comes from a theme or from the automatic event scheduler.
+        Festival festival = json == null ? Festival.NONE : Festival.parse(string(json, "festival", ""), 
+                string(json, "festival_from", ""), string(json, "festival_until", ""), 
+                string(json, "greeting", ""), string(json, "accent_color", ""));
+        boolean autoEvents = json == null || bool(json, "auto_events", true);
+        if (autoEvents && !festival.active(LocalDate.now())) {
+            Festival scheduled = Festival.getScheduledEvent(LocalDate.now());
+            if (scheduled != Festival.NONE) {
+                festival = scheduled;
+            }
+        }
 
         return new Config(dock, fillDock, hidden, liveTv, liveTvAction, panelService, panelAction, inputAction,
                 Math.max(1, columns), Math.max(0, rowsBelow), animations, advancedEffects,
@@ -240,6 +249,13 @@ final class Config {
                 Math.max(0, Math.min(100, skyIntensity)), settingsKeycodes, settingsKeyPanel, wallpaperEnabled, wallpaper,
                 wallpapers, rotationMinutes, wallpaperDim, applied,
                 festival, inputKeycodes, appKeys);
+    }
+
+    Festival getEffectiveFestival(LocalDate today) {
+        if (festival != Festival.NONE && festival.active(today)) {
+            return festival;
+        }
+        return Festival.getScheduledEvent(today);
     }
 
     private static void syncThemeChoices(SharedPreferences choices, File dir, File config) {

@@ -22,6 +22,16 @@ powershell -ExecutionPolicy Bypass -File tools\theme.ps1 -TvHost 192.168.1.50 th
 | `vietnam-modern/` | Deep slate-teal backdrop with subtle sky gradient, hardware stats, 5 columns and dock presets for YouTube, Netflix, VTV Go, FPT Play |
 
 | `onn-vietnam/` | Tailored theme for Onn TV Box: dock presets for YouTube, Netflix, Stremio, GeForce NOW, VTV Go, YouTube Music, Cốc Cốc, hardware stats and app library |
+| `tet-nguyen-dan/` | Tết Nguyên Đán: Lunar New Year theme with festive red/gold accents, greeting, auto-scheduled (-14 to +7 days) |
+| `giang-sinh/` | Giáng Sinh: Christmas theme with pine-red accents and holiday greeting (-14 to +7 days) |
+| `valentine/` | Valentine 14/2: Romantic rose/pink theme with sweet greetings (-14 to +7 days) |
+| `quoc-te-phu-nu-8-3/` | Quốc tế Phụ nữ 8/3: Magenta flower accents and celebration greeting (-14 to +7 days) |
+| `tu-hao-vn-30-4/` | Kỷ niệm 30/4 - 1/5: Vietnam flag red theme and victory greeting (-14 to +7 days) |
+| `quoc-khanh-2-9/` | Quốc khánh 2/9: National Day theme with patriotic flag red and greeting (-14 to +7 days) |
+| `sinh-nhat-momo/` | Sinh nhật Momo (17/1): Special birthday theme active 16/1 - 18/1 with cake & celebration |
+| `sinh-nhat-mia/` | Sinh nhật Bé Mía (8/3): Birthday theme active 7/3 - 9/3 with pink blossom & celebration |
+| `sinh-nhat-bo-quang-anh/` | Sinh nhật Bố Quang Anh (28/6): Birthday theme active 27/6 - 29/6 with royal blue & celebration |
+| `sinh-nhat-me-linh/` | Sinh nhật Mẹ Linh (20/11): Birthday theme active 19/11 - 21/11 with lotus purple & celebration |
 ## Keys
 
 Every key is optional; a missing key keeps the value from `config.xml`, an unknown or wrongly typed key
