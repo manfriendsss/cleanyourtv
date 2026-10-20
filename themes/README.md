@@ -21,6 +21,7 @@ powershell -ExecutionPolicy Bypass -File tools\theme.ps1 -TvHost 192.168.1.50 th
 | `oled-minimal/` | Pitch-black OLED theme with 5 columns, 1 preview row, hardware stats, app library and advanced motion effects |
 | `vietnam-modern/` | Deep slate-teal backdrop with subtle sky gradient, hardware stats, 5 columns and dock presets for YouTube, Netflix, VTV Go, FPT Play |
 
+| `onn-vietnam/` | Tailored theme for Onn TV Box: dock presets for YouTube, Netflix, Stremio, GeForce NOW, VTV Go, YouTube Music, Cốc Cốc, hardware stats and app library |
 ## Keys
 
 Every key is optional; a missing key keeps the value from `config.xml`, an unknown or wrongly typed key

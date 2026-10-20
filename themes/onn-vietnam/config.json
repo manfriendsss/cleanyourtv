@@ -1,0 +1,24 @@
+{
+  "dock_apps": [
+    "com.google.android.youtube.tv",
+    "com.netflix.ninja",
+    "com.stremio.one",
+    "com.nvidia.geforcenow",
+    "com.vtv.vtvgo",
+    "com.google.android.apps.youtube.music",
+    "com.coccoc.trinhduyet",
+    "com.coccoc.browser"
+  ],
+  "fill_dock": true,
+  "columns": 5,
+  "rows_below_dock": 1,
+  "dock_title": true,
+  "dock_row": true,
+  "reorder_button": true,
+  "app_library": true,
+  "show_stats": true,
+  "advanced_effects": true,
+  "background_color": "#090d12",
+  "sky_intensity": 35,
+  "live_tv_package": ""
+}
